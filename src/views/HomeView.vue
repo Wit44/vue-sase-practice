@@ -10,7 +10,7 @@ FlightService.getFlights()
 </script>
 
 <template>
-    <div class="wrapper mb-3 mt-3">
+    <div class="wrapper mb-3 mt-3" v-if="flights">
         <div class="card" style="width: 18rem;" v-for="f of flights" :key="f.id">
             <img :src="`https://img.pequla.com/destination/${f.destination.toLowerCase().split(' ')[0]}.jpg`"
                 class="card-img-top" :alt="f.destination">
@@ -34,6 +34,7 @@ FlightService.getFlights()
             </div>
         </div>
     </div>
+    <div v-else>Loading data...</div>
 </template>
 
 <style>
