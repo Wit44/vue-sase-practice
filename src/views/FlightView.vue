@@ -27,6 +27,9 @@ FlightService.getFlightById(id)
                     </div>
                     <ul class="list-group list-group-flush">
                         <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fa-solid fa-hashtag"></i> Number: {{ flight.flightNumber }}
+                            </li>
                             <li class="list-group-item"><i class="fa-solid fa-clock-rotate-left"></i> {{
                                 formatTime(flight.estimatedAt ?? flight.scheduledAt) }}
                             </li>
