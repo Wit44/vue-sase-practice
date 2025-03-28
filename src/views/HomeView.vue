@@ -5,11 +5,33 @@ import { destinationImage, formatTime } from '@/utils';
 import { ref } from 'vue';
 
 const flights = ref<FlightModel[]>()
+const allFlights = ref<FlightModel[]>()
 FlightService.getFlights()
-    .then(rsp => flights.value = rsp.data)
+    .then(rsp => {
+        allFlights.value = rsp.data
+        flights.value = rsp.data
+    })
 
     function doSearch(e: any) {
-        console.log(e.target.value)
+        //When flights are not loaded skip searcg
+        if (allFlights.value == undefined) return
+
+        //Making sure the input is lowercase
+        const input = e.target.value? e.target.value.toLowerCase() : ''
+        
+        //if search bar is empty return all flights
+        if (input == ''){
+            flights.value = allFlights.value
+        }
+
+        //filter chain
+        flights.value = allFlights.value.filter(f => {
+           return f.destination.toLowerCase().includes(input) || 
+           f.flightKey.toLowerCase().includes(input) || 
+           f.plane.toLowerCase().includes(input) || 
+           f.terminal.toLowerCase().includes(input)
+        })
+        
     }
 </script>
 
