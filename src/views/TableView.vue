@@ -43,7 +43,7 @@ FlightService.getFlights()
                 </td>
                 <td>
                     <div class="btn-group">
-                        <RouterLink :to="` /flight/${f.id}`" class="btn btn-sm btn-primary">
+                        <RouterLink :to="`/flight/${f.id}`" class="btn btn-sm btn-primary">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </RouterLink>
                     </div>
