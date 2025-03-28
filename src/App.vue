@@ -21,6 +21,11 @@ import { RouterLink, RouterView } from 'vue-router'
               </RouterLink>
             </li>
             <li class="nav-item">
+              <RouterLink class="nav-link" to="/table">
+                <i class="fa-solid fa-table"></i> Table
+              </RouterLink>
+            </li>
+            <li class="nav-item">
               <RouterLink class="nav-link" to="/about">
                 <i class="fa-solid fa-circle-info"></i> About
               </RouterLink>
