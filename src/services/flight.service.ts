@@ -2,11 +2,9 @@ import type { FlightModel } from "@/models/flight.model";
 import axios from "axios";
 
 const client = axios.create({
-    baseURL: 'https://flight.pequla.com/api',
-    timeout: 12000,
+    baseURL: 'http://localhost:5000/api',
     headers: {
-        'Accept': 'application/json',
-        'X-Name': 'SASE-2025'
+        'Accept': 'application/json'
     },
     validateStatus: (status: number) => {
         return status === 200
@@ -15,16 +13,10 @@ const client = axios.create({
 
 export class FlightService {
     static async getFlights() {
-        return await client.request<FlightModel[]>({
-            url: '/flight/list',
-            method: 'get',
-            params: {
-                type: 'departure'
-            }
-        })
+        return await client.get<FlightModel[]>('/flight')
     }
 
-    static async getFlightById(id: number){
+    static async getFlightById(id: number) {
         return await client.get<FlightModel>(`/flight/${id}`)
     }
 }
