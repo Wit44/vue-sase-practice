@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import FlightView from '@/views/FlightView.vue'
 import TableView from '@/views/TableView.vue'
+import AirlineView from '@/views/AirlineView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/table',
       name: 'table',
       component: TableView,
+    },
+    {
+      path: '/airline',
+      name: 'airline',
+      component: AirlineView,
     },
   ],
 })

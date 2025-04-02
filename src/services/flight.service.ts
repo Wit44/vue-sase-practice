@@ -1,22 +1,14 @@
 import type { FlightModel } from "@/models/flight.model";
-import axios from "axios";
+import { MainService } from "./main.service";
 
-const client = axios.create({
-    baseURL: 'http://localhost:5000/api',
-    headers: {
-        'Accept': 'application/json'
-    },
-    validateStatus: (status: number) => {
-        return status === 200
-    }
-})
+
 
 export class FlightService {
     static async getFlights() {
-        return await client.get<FlightModel[]>('/flight')
+        return await MainService.useAxios<FlightModel[]>('/flight')
     }
 
     static async getFlightById(id: number) {
-        return await client.get<FlightModel>(`/flight/${id}`)
+        return await MainService.useAxios<FlightModel>(`/flight/${id}`)
     }
 }
