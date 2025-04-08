@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { FlightModel } from '@/models/flight.model';
+import { AuthService } from '@/services/auth.service';
 import { FlightService } from '@/services/flight.service';
 import { destinationImage, formatTime } from '@/utils';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
+const router = useRouter()
 const route = useRoute()
 const id = Number(route.params.id)
 
@@ -12,6 +14,10 @@ const flight = ref<FlightModel>()
 
 FlightService.getFlightById(id)
     .then(rsp => flight.value = rsp.data)
+    .catch(e=>{
+        AuthService.removeAuth()
+        router.push('/login')
+    })
 </script>
 
 <template>

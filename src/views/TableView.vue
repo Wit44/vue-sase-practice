@@ -1,13 +1,20 @@
 <script lang="ts" setup>
 import type { FlightModel } from '@/models/flight.model';
+import { AuthService } from '@/services/auth.service';
 import { FlightService } from '@/services/flight.service';
 import { formatTime } from '@/utils';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const flights = ref<FlightModel[]>()
 
 FlightService.getFlights()
     .then(rsp => flights.value = rsp.data)
+    .catch(e=>{
+        AuthService.removeAuth()
+        router.push('/login')
+    })
 
 </script>
 

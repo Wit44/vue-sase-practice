@@ -19,7 +19,7 @@ function doLogin(e: Event) {
         AuthService.createAuth(rsp.data)
         router.push('/')
     })
-    .catch(e=>alert('Failed to login'))
+    .catch(e=>alert('Check yo username or password'))
 }
 </script>
 
