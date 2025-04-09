@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     static getRefreshToken(): string {
-        return this.getAuth().access
+        return this.getAuth().refresh
     }
 
     static getUser(): string {
