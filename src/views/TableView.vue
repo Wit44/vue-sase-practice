@@ -8,25 +8,25 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter()
 const flights = ref<FlightModel[]>()
-
 FlightService.getFlights()
     .then(rsp => flights.value = rsp.data)
-    .catch(e=>{
+    .catch(e => {
         AuthService.removeAuth()
         router.push('/login')
     })
-
+    
 </script>
 
 <template>
+    <h3>Table View</h3>
     <table class="table table-striped table-hover" v-if="flights">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Destination</th>
-                <th scope="col">Flight number</th>
-                <th scope="col">Flight key</th>
-                <th scope="col">scheduled At</th>
+                <th scope="col">Flight Number</th>
+                <th scope="col">Flight Key</th>
+                <th scope="col">Scheduled At</th>
                 <th scope="col">Status</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -34,19 +34,17 @@ FlightService.getFlights()
         <tbody>
             <tr v-for="f of flights" :key="f.id">
                 <th scope="row">{{ f.id }}</th>
-                <td>{{f.destination}}</td>
-                <td>{{f.flightNumber}}</td>
+                <td>{{ f.destination }}</td>
+                <td>{{ f.flightNumber }}</td>
                 <td>{{ f.flightKey }}</td>
-                <td>{{ f.scheduledAt }}</td>
                 <td>{{ formatTime(f.estimatedAt ?? f.scheduledAt) }}</td>
                 <td>
                     <template v-if="f.estimatedAt">
-                        <i class="fa-solid fa-circle text-warning"></i> On Time
+                        <i class="fa-solid fa-circle text-warning"></i> Delayed
                     </template>
                     <template v-else>
                         <i class="fa-solid fa-circle text-success"></i> On Time
                     </template>
-                    
                 </td>
                 <td>
                     <div class="btn-group">

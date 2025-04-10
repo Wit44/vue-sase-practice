@@ -7,7 +7,7 @@ const client = axios.create({
         'Accept': 'application/json'
     },
     validateStatus: (status: number) => {
-        return status === 200
+        return status === 200 || status === 204
     }
 })
 
@@ -24,10 +24,10 @@ export class MainService {
         })
     }
 
-    static async useAxios<T>(url: string,
+    static async useAxios<T>(
+        url: string,
         method: 'get' | 'post' | 'put' | 'delete' = 'get',
         data: any = {}): Promise<AxiosResponse<T, any>> {
-
 
         let rsp: AxiosResponse
 
@@ -38,19 +38,19 @@ export class MainService {
                 headers: {
                     'Authorization': `Bearer ${AuthService.getAccessToken()}`
                 },
-                data:data
+                data: data
             }) as AxiosResponse
         } catch (e) {
             rsp = (e as AxiosError).response as AxiosResponse
         }
-     
-        if (rsp == undefined){
+
+        if (rsp == undefined) {
             throw new Error('BACKEND_UNREACHABLE')
         }
 
-        if (rsp.status == 403){
-            //access token as exipred
-            // we have to repeat request again
+        if (rsp.status == 403) {
+            // Access token as expired
+            // We have to refresh it and then repeat the request again
 
             try {
                 const tokenRequest = await client.request({
@@ -69,20 +69,19 @@ export class MainService {
                     headers: {
                         'Authorization': `Bearer ${AuthService.getAccessToken()}`
                     },
-                    data:data
+                    data: data
                 })
 
             } catch (e) {
                 AuthService.removeAuth()
                 throw new Error('REFRESH_FAILED')
             }
-
-            if (rsp.status == 404) {
-                throw new Error('NOT_FOUND')
-            }
-
-    
         }
+
+        if (rsp.status == 404) {
+            throw new Error('NOT_FOUND')
+        }
+
         return rsp
     }
 }
