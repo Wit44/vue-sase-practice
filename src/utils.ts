@@ -1,4 +1,6 @@
+import { useRouter } from "vue-router";
 import type { FlightModel } from "./models/flight.model";
+import { AuthService } from "./services/auth.service";
 
 export function formatTime(iso: string) {
     return new Date(iso).toLocaleString('sr-RS', {
@@ -12,4 +14,10 @@ export function formatTime(iso: string) {
 
 export function destinationImage(flight: FlightModel){
     return `https://img.pequla.com/destination/${flight.destination.toLowerCase().split(' ')[0]}.jpg`
+}
+
+export function doLogout() {
+    const router = useRouter()
+    AuthService.removeAuth()
+    router.push('login')
 }

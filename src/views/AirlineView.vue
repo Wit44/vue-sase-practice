@@ -1,22 +1,22 @@
 <script lang="ts" setup>
 import type { AirlineModel } from '@/models/airline.model';
 import { AirlineService } from '@/services/airline.service';
-import { AuthService } from '@/services/auth.service';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { formatTime } from '@/utils';
+import { doLogout, formatTime } from '@/utils';
 
-const router = useRouter()
 const airlines = ref<AirlineModel[]>()
 AirlineService.getAirlines()
     .then(rsp => airlines.value = rsp.data)
-    .catch(e => {
-        AuthService.removeAuth()
-        router.push('/login')
-    })
+    .catch(e => doLogout())
 
-function deleteObject(airline: AirlineModel) {
-
+async function doDelete(airline: AirlineModel) {
+    try {
+        if (!confirm(`Are you sure you want to delete ${airline.name}?`)) return
+        await AirlineService.deleteAirline(airline.airlineId)
+        airlines.value = airlines.value?.filter(a => a.airlineId !== airline.airlineId)
+    } catch {
+        doLogout()
+    }
 }
 
 </script>
@@ -51,7 +51,7 @@ function deleteObject(airline: AirlineModel) {
                         <RouterLink :to="`/airline/${a.airlineId}`" class="btn btn-sm btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </RouterLink>
-                        <button class="btn btn-sm btn-danger" @click="deleteObject(a)">
+                        <button class="btn btn-sm btn-danger" @click="doDelete(a)">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>

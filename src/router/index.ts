@@ -6,6 +6,7 @@ import TableView from '@/views/TableView.vue'
 import AirlineView from '@/views/AirlineView.vue'
 import LoginView from '@/views/LoginView.vue'
 import EditAirline from '@/views/EditAirline.vue'
+import NewAirline from '@/views/NewAirline.vue'
 
 
 const router = createRouter({
@@ -41,7 +42,11 @@ const router = createRouter({
       name: 'airline',
       component: AirlineView,
     },
-
+    {
+      path: '/airline/new',
+      name: 'new-airline',
+      component: NewAirline,
+    },
     {
       path: '/airline/:id',
       name: 'edit-airline',
